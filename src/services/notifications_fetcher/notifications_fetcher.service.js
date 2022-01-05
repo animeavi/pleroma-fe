@@ -56,14 +56,6 @@ const fetchNotifications = ({ store, args, older }) => {
       update({ store, notifications, older })
       return notifications
     })
-    .catch((error) => {
-      store.dispatch('pushGlobalNotice', {
-        level: 'error',
-        messageKey: 'notifications.error',
-        messageArgs: [error.message],
-        timeout: 5000
-      })
-    })
 }
 
 const startFetching = ({ credentials, store }) => {
