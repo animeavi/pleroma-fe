@@ -31,10 +31,6 @@
           class="userName"
           v-html="userName"
         /></span>
-        <span
-          v-if="isYou"
-          class="you"
-        >{{ $t('status.you') }}</span>
         <!-- eslint-enable vue/no-v-html -->
       </a>
       <span
