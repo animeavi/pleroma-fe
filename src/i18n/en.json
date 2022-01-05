@@ -33,7 +33,7 @@
     "staff": "Staff"
   },
   "shoutbox": {
-    "title": "Shoutbox"
+    "title": "Brapbox"
   },
   "domain_mute_card": {
     "mute": "Mute",
@@ -203,7 +203,7 @@
       "text/bbcode": "BBCode"
     },
     "content_warning": "Subject (optional)",
-    "default": "Just landed in L.A.",
+    "default": "Dahling",
     "direct_warning_to_all": "This post will be visible to all the mentioned users.",
     "direct_warning_to_first_only": "This post will only be visible to the mentioned users at the beginning of the message.",
     "posting": "Posting",
@@ -631,7 +631,7 @@
         "button": "Button",
         "text": "A bunch of more {0} and {1}",
         "mono": "content",
-        "input": "Just landed in L.A.",
+        "input": "Dahling",
         "faint_link": "helpful manual",
         "fine_print": "Read our {0} to learn nothing useful!",
         "header_faint": "This is fine",
