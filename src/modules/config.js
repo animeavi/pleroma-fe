@@ -57,6 +57,7 @@ export const defaultState = {
   hideScopeNotice: false,
   useStreamingApi: false,
   sidebarRight: undefined, // instance default
+  showThirdColumn: false, // instance default
   scopeCopy: undefined, // instance default
   subjectLineBehavior: undefined, // instance default
   alwaysShowSubjectInput: undefined, // instance default
