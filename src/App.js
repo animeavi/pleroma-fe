@@ -72,6 +72,9 @@ export default {
         !this.$store.getters.mergedConfig.hideISP &&
         this.$store.state.instance.instanceSpecificPanelContent
     },
+    thirdColumnEnabled () {
+      return this.$store.getters.mergedConfig.showThirdColumn || false
+    },
     showFeaturesPanel () { return this.$store.state.instance.showFeaturesPanel },
     hideShoutbox () {
       return this.$store.getters.mergedConfig.hideShoutbox
@@ -81,6 +84,16 @@ export default {
     sidebarAlign () {
       return {
         'order': this.$store.getters.mergedConfig.sidebarRight ? 99 : 0
+      }
+    },
+    notifsAlign () {
+      return {
+        'order': this.$store.getters.mergedConfig.sidebarRight ? 0 : 99
+      }
+    },
+    thirdColumnLayout () {
+      return {
+        'max-width': this.$store.getters.mergedConfig.showThirdColumn ? '1400px' : '980px'
       }
     },
     ...mapGetters(['mergedConfig'])
