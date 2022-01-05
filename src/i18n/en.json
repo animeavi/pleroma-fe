@@ -139,7 +139,7 @@
   },
   "notifications": {
     "broken_favorite": "Unknown status, searching for it…",
-    "error": "Error fetching notifications: {0}",
+    "error": "Error fetching notifications",
     "favorited_you": "favorited your status",
     "followed_you": "followed you",
     "follow_request": "wants to follow you",
@@ -676,7 +676,7 @@
   "timeline": {
     "collapse": "Collapse",
     "conversation": "Conversation",
-    "error": "Error fetching timeline: {0}",
+    "error": "Error loading status",
     "load_older": "Load older statuses",
     "no_retweet_hint": "Post is marked as followers-only or direct and cannot be repeated",
     "repeated": "repeated",
