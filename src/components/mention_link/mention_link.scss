@@ -37,13 +37,6 @@
   }
 
   .new {
-    &.-you {
-      & .shortName,
-      & .full {
-        font-weight: 600;
-      }
-    }
-
     .at {
       color: var(--link);
       opacity: 0.8;
