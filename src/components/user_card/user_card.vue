@@ -92,6 +92,12 @@
               </router-link>
               <template v-if="!hideBio">
                 <span
+                  v-if="user.deactivated"
+                  class="alert user-role"
+                >
+                  {{ $t('user_card.deactivated') }}
+                </span>
+                <span
                   v-if="!!visibleRole"
                   class="alert user-role"
                 >
@@ -169,7 +175,10 @@
           class="user-interactions"
         >
           <div class="btn-group">
-            <FollowButton :relationship="relationship" />
+            <FollowButton
+              :relationship="relationship"
+              :user="user"
+            />
             <template v-if="relationship.following">
               <ProgressButton
                 v-if="!relationship.subscribing"
@@ -204,6 +213,7 @@
             <button
               v-if="relationship.muting"
               class="btn button-default btn-block toggled"
+              :disabled="user.deactivated"
               @click="unmuteUser"
             >
               {{ $t('user_card.muted') }}
@@ -211,6 +221,7 @@
             <button
               v-else
               class="btn button-default btn-block"
+              :disabled="user.deactivated"
               @click="muteUser"
             >
               {{ $t('user_card.mute') }}
@@ -219,6 +230,7 @@
           <div>
             <button
               class="btn button-default btn-block"
+              :disabled="user.deactivated"
               @click="mentionUser"
             >
               {{ $t('user_card.mention') }}
