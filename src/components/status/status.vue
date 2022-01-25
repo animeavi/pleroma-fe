@@ -269,9 +269,32 @@
                 />
               </span>
 
+              <!-- This little wrapper is made for sole purpose of "gluing" -->
+              <!-- "Mentions" label to the first mention -->
+              <span
+                v-if="hasMentionsLine"
+                class="glued-label"
+              >
+                <span
+                  class="mentions"
+                  :aria-label="$t('tool_tip.mentions')"
+                  @click.prevent="gotoOriginal(status.in_reply_to_status_id)"
+                >
+                  <span
+                    class="mentions-text"
+                  >
+                    {{ $t('status.mentions') }}
+                  </span>
+                </span>
+                <MentionsLine
+                  v-if="hasMentionsLine"
+                  :mentions="mentionsLine.slice(0, 1)"
+                  class="mentions-line-first"
+                />
+              </span>
               <MentionsLine
                 v-if="hasMentionsLine"
-                :mentions="mentionsLine"
+                :mentions="mentionsLine.slice(1)"
                 class="mentions-line"
               />
             </div>
