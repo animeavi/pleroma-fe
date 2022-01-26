@@ -1,17 +1,29 @@
 import Popover from '../popover/popover.vue'
-import TimelineMenuContent from './timeline_menu_content.vue'
+import { mapState } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+  faUsers,
+  faGlobe,
+  faBookmark,
+  faEnvelope,
+  faHome,
   faChevronDown
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faChevronDown)
+library.add(
+  faUsers,
+  faGlobe,
+  faBookmark,
+  faEnvelope,
+  faHome,
+  faChevronDown
+)
 
 // Route -> i18n key mapping, exported and not in the computed
 // because nav panel benefits from the same information.
 export const timelineNames = () => {
   return {
-    'friends': 'nav.home_timeline',
+    'friends': 'nav.timeline',
     'bookmarks': 'nav.bookmarks',
     'dms': 'nav.dms',
     'public-timeline': 'nav.public_tl',
@@ -21,8 +33,7 @@ export const timelineNames = () => {
 
 const TimelineMenu = {
   components: {
-    Popover,
-    TimelineMenuContent
+    Popover
   },
   data () {
     return {
@@ -30,6 +41,9 @@ const TimelineMenu = {
     }
   },
   created () {
+    if (this.currentUser && this.currentUser.locked) {
+      this.$store.dispatch('startFetchingFollowRequests')
+    }
     if (timelineNames()[this.$route.name]) {
       this.$store.dispatch('setLastTimeline', this.$route.name)
     }
@@ -61,6 +75,13 @@ const TimelineMenu = {
       const i18nkey = timelineNames()[this.$route.name]
       return i18nkey ? this.$t(i18nkey) : route
     }
+  },
+  computed: {
+    ...mapState({
+      currentUser: state => state.users.currentUser,
+      privateMode: state => state.instance.private,
+      federating: state => state.instance.federating
+    })
   }
 }
 

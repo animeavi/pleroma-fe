@@ -3,33 +3,19 @@
     <div class="panel panel-default">
       <ul>
         <li v-if="currentUser || !privateMode">
-          <button
-            class="button-unstyled menu-item"
-            @click="toggleTimelines"
+          <router-link
+            :to="{ name: timelinesRoute }"
+            :class="onTimelineRoute && 'router-link-active'"
           >
             <FAIcon
               fixed-width
               class="fa-scale-110"
-              icon="stream"
+              icon="home"
             />{{ $t("nav.timelines") }}
-            <FAIcon
-              class="timelines-chevron"
-              fixed-width
-              :icon="showTimelines ? 'chevron-up' : 'chevron-down'"
-            />
-          </button>
-          <div
-            v-show="showTimelines"
-            class="timelines-background"
-          >
-            <TimelineMenuContent class="timelines" />
-          </div>
+          </router-link>
         </li>
         <li v-if="currentUser">
-          <router-link
-            class="menu-item"
-            :to="{ name: 'interactions', params: { username: currentUser.screen_name } }"
-          >
+          <router-link :to="{ name: 'interactions', params: { username: currentUser.screen_name } }">
             <FAIcon
               fixed-width
               class="fa-scale-110"
@@ -38,10 +24,7 @@
           </router-link>
         </li>
         <li v-if="currentUser && pleromaChatMessagesAvailable">
-          <router-link
-            class="menu-item"
-            :to="{ name: 'chats', params: { username: currentUser.screen_name } }"
-          >
+          <router-link :to="{ name: 'chats', params: { username: currentUser.screen_name } }">
             <div
               v-if="unreadChatCount"
               class="badge badge-notification"
@@ -56,10 +39,7 @@
           </router-link>
         </li>
         <li v-if="currentUser && currentUser.locked">
-          <router-link
-            class="menu-item"
-            :to="{ name: 'friend-requests' }"
-          >
+          <router-link :to="{ name: 'friend-requests' }">
             <FAIcon
               fixed-width
               class="fa-scale-110"
@@ -74,10 +54,7 @@
           </router-link>
         </li>
         <li>
-          <router-link
-            class="menu-item"
-            :to="{ name: 'about' }"
-          >
+          <router-link :to="{ name: 'about' }">
             <FAIcon
               fixed-width
               class="fa-scale-110"
@@ -114,14 +91,14 @@
     border-color: var(--border, $fallback--border);
     padding: 0;
 
-    &:first-child .menu-item {
+    &:first-child a {
       border-top-right-radius: $fallback--panelRadius;
       border-top-right-radius: var(--panelRadius, $fallback--panelRadius);
       border-top-left-radius: $fallback--panelRadius;
       border-top-left-radius: var(--panelRadius, $fallback--panelRadius);
     }
 
-    &:last-child .menu-item {
+    &:last-child a {
       border-bottom-right-radius: $fallback--panelRadius;
       border-bottom-right-radius: var(--panelRadius, $fallback--panelRadius);
       border-bottom-left-radius: $fallback--panelRadius;
@@ -133,15 +110,13 @@
     border: none;
   }
 
-  .menu-item {
+  a {
     display: block;
     box-sizing: border-box;
+    align-items: stretch;
     height: 3.5em;
     line-height: 3.5em;
     padding: 0 1em;
-    width: 100%;
-    color: $fallback--link;
-    color: var(--link, $fallback--link);
 
     &:hover {
       background-color: $fallback--lightBg;
@@ -169,25 +144,6 @@
         text-decoration: underline;
       }
     }
-  }
-
-  .timelines-chevron {
-    margin-left: 0.8em;
-    font-size: 1.1em;
-  }
-
-  .timelines-background {
-    padding: 0 0 0 0.6em;
-    background-color: $fallback--lightBg;
-    background-color: var(--selectedMenu, $fallback--lightBg);
-    border-top: 1px solid;
-    border-color: $fallback--border;
-    border-color: var(--border, $fallback--border);
-  }
-
-  .timelines {
-    background-color: $fallback--bg;
-    background-color: var(--bg, $fallback--bg);
   }
 
   .fa-scale-110 {
