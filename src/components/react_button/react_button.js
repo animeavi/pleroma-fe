@@ -34,11 +34,22 @@ const ReactButton = {
   computed: {
     commonEmojis () {
       return [
-        { displayText: 'thumbsup', replacement: '👍' },
-        { displayText: 'angry', replacement: '😠' },
-        { displayText: 'eyes', replacement: '👀' },
-        { displayText: 'joy', replacement: '😂' },
-        { displayText: 'fire', replacement: '🔥' }
+        { displayText: 'lying', replacement: '🤥' },
+        { displayText: 'thinking', replacement: '🤔' },
+        { displayText: 'zany', replacement: '🤪' },
+        { displayText: 'cartwheeling', replacement: '🤸‍♂️' },
+        { displayText: 'pills', replacement: '💊' },
+        { displayText: 'writing', replacement: '✍️' },
+        { displayText: 'pencil', replacement: '✏️' },
+        { displayText: 'chart_up', replacement: '📈' },
+        { displayText: 'chart_down', replacement: '📉' },
+        { displayText: 'question', replacement: '❔' },
+        { displayText: 'x', replacement: '❌' },
+        { displayText: 'orangutan', replacement: '🦧' },
+        { displayText: 'owl', replacement: '🦉' },
+        { displayText: 'bottle', replacement: '🍼' },
+        { displayText: 'crayon', replacement: '🖍️' },
+        { displayText: 'blackula', replacement: '🧛🏿' }
       ]
     },
     emojis () {
