@@ -1,3 +1,4 @@
+import Checkbox from '../checkbox/checkbox.vue'
 import Popover from '../popover/popover.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons'
@@ -8,21 +9,26 @@ const ReactButton = {
   props: ['status'],
   data () {
     return {
-      filterWord: ''
+      filterWord: '',
+      keepReactOpen: false
     }
   },
   components: {
-    Popover
+    Popover,
+    Checkbox
   },
   methods: {
-    addReaction (event, emoji, close) {
+    addReaction (event, emoji, close, keepReactOpen) {
       const existingReaction = this.status.emoji_reactions.find(r => r.name === emoji)
       if (existingReaction && existingReaction.me) {
         this.$store.dispatch('unreactWithEmoji', { id: this.status.id, emoji })
       } else {
         this.$store.dispatch('reactWithEmoji', { id: this.status.id, emoji })
       }
-      close()
+      this.keepReactOpen = keepReactOpen
+      if (!keepReactOpen) {
+        close()
+      }
     },
     focusInput () {
       this.$nextTick(() => {
