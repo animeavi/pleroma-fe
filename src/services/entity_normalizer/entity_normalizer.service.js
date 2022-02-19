@@ -54,9 +54,8 @@ export const parseUser = (data) => {
       return output
     }
 
-    output.name = escape(data.display_name)
-    output.name_html = output.name
-    output.name_unescaped = data.display_name
+    output.name = data.display_name
+    output.name_html = addEmojis(escape(data.display_name), data.emojis)
 
     output.description = data.note
     output.description_html = addEmojis(data.note, data.emojis)
