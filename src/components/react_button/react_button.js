@@ -55,7 +55,9 @@ const ReactButton = {
         { displayText: 'owl', replacement: '🦉' },
         { displayText: 'bottle', replacement: '🍼' },
         { displayText: 'crayon', replacement: '🖍️' },
-        { displayText: 'blackula', replacement: '🧛🏿' }
+        { displayText: 'blackula', replacement: '🧛🏿' },
+        { displayText: 'wrench', replacement: '🔧' },
+        { displayText: 'axe', replacement: '🪓' }
       ]
     },
     emojis () {
