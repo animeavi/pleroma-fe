@@ -43,6 +43,7 @@
             v-if="emoji.imageUrl !== false"
             :src="emoji.imageUrl"
             width="30px"
+            class="custom-reaction"
           >
           <span v-else>
             {{ emoji.replacement }}
@@ -69,6 +70,10 @@
 
 <style lang="scss">
 @import '../../_variables.scss';
+
+.custom-reaction {
+  width: 30px !important;
+}
 
 .ReactButton {
   .reaction-picker-filter {
