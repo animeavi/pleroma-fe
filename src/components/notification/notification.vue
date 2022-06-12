@@ -102,7 +102,18 @@
             <span v-if="notification.type === 'pleroma:emoji_reaction'">
               <small>
                 <i18n path="notifications.reacted_with">
-                  <span class="emoji-reaction-emoji">{{ notification.emoji }}</span>
+                  <img
+                    v-if="notification.emoji_url !== null"
+                    class="reaction-emoji"
+                    :src="notification.emoji_url"
+                    :name="notification.emoji"
+                  >
+                  <span
+                    v-else
+                    class="emoji-reaction-emoji"
+                  >
+                    {{ notification.emoji }}
+                  </span>
                 </i18n>
               </small>
             </span>
