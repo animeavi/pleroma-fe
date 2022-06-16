@@ -1,4 +1,5 @@
 import Popover from '../popover/popover.vue'
+import EmojiPicker from '../emoji_picker/emoji_picker.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons'
 
@@ -12,10 +13,12 @@ const ReactButton = {
     }
   },
   components: {
-    Popover
+    Popover,
+    EmojiPicker
   },
   methods: {
-    addReaction (event, emoji, close) {
+    addReaction (event, close) {
+      const emoji = event.insertion
       const existingReaction = this.status.emoji_reactions.find(r => r.name === emoji)
       if (existingReaction && existingReaction.me) {
         this.$store.dispatch('unreactWithEmoji', { id: this.status.id, emoji })
@@ -32,53 +35,6 @@ const ReactButton = {
     }
   },
   computed: {
-    commonEmojis () {
-      return [
-        { displayText: 'lying', replacement: '🤥' },
-        { displayText: 'thinking', replacement: '🤔' },
-        { displayText: 'zany', replacement: '🤪' },
-        { displayText: 'cartwheeling', replacement: '🤸‍♂️' },
-        { displayText: 'pills', replacement: '💊' },
-        { displayText: 'writing', replacement: '✍️' },
-        { displayText: 'pencil', replacement: '✏️' },
-        { displayText: 'chart_up', replacement: '📈' },
-        { displayText: 'chart_down', replacement: '📉' },
-        { displayText: 'question', replacement: '❔' },
-        { displayText: 'x', replacement: '❌' },
-        { displayText: 'orangutan', replacement: '🦧' },
-        { displayText: 'owl', replacement: '🦉' },
-        { displayText: 'bottle', replacement: '🍼' },
-        { displayText: 'crayon', replacement: '🖍️' },
-        { displayText: 'blackula', replacement: '🧛🏿' },
-        { displayText: 'wrench', replacement: '🔧' },
-        { displayText: 'axe', replacement: '🪓' }
-      ]
-    },
-    emojis () {
-      if (this.filterWord !== '') {
-        const filterWordLowercase = this.filterWord.toLowerCase()
-        let orderedEmojiList = []
-        for (const emoji of [
-          ...this.$store.state.instance.emoji,
-          ...this.$store.state.instance.customEmoji
-        ]) {
-          if (emoji.replacement === this.filterWord) return [emoji]
-
-          const indexOfFilterWord = emoji.displayText.toLowerCase().indexOf(filterWordLowercase)
-          if (indexOfFilterWord > -1) {
-            if (!Array.isArray(orderedEmojiList[indexOfFilterWord])) {
-              orderedEmojiList[indexOfFilterWord] = []
-            }
-            orderedEmojiList[indexOfFilterWord].push(emoji)
-          }
-        }
-        return orderedEmojiList.flat()
-      }
-      return [
-        ...this.$store.state.instance.emoji,
-        ...this.$store.state.instance.customEmoji
-      ] || []
-    },
     mergedConfig () {
       return this.$store.getters.mergedConfig
     }
