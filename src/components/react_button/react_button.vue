@@ -16,18 +16,13 @@
           :placeholder="$t('emoji.search_emoji')"
         >
       </div>
-      <div class="keep-open">
-        <Checkbox v-model="keepReactOpen">
-          {{ $t('emoji.keep_open') }}
-        </Checkbox>
-      </div>
       <div class="reaction-picker">
         <span
           v-for="emoji in commonEmojis"
           :key="emoji.replacement"
           class="emoji-button"
           :title="emoji.displayText"
-          @click="addReaction($event, emoji.replacement, close, keepReactOpen)"
+          @click="addReaction($event, emoji.replacement, close)"
         >
           {{ emoji.replacement }}
         </span>
@@ -37,7 +32,7 @@
           :key="key"
           class="emoji-button"
           :title="emoji.displayText"
-          @click="addReaction($event, emoji.replacement, close, keepReactOpen)"
+          @click="addReaction($event, emoji.replacement, close)"
         >
           <img
             v-if="emoji.imageUrl !== false"
@@ -140,15 +135,6 @@
       color: $fallback--text;
       color: var(--text, $fallback--text);
     }
-  }
-  .keep-open,
-  .too-many-emoji {
-    padding: 7px;
-    line-height: normal;
-  }
-  .keep-open-label {
-    padding: 0 7px;
-    display: flex;
   }
 }
 
