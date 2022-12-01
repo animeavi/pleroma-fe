@@ -18,8 +18,8 @@
           <img
             :src="reaction.url"
             :title="reaction.name"
-            class="reaction-emoji"
-            width="2.55em"
+            class="emoji"
+            height="32px"
           >
           {{ reaction.count }}
         </span>
@@ -53,7 +53,7 @@
 }
 
 .unicode-emoji {
-  font-size: 210%;
+  font-size: 185%;
 }
 
 .emoji-reaction {
@@ -64,10 +64,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  .reaction-emoji {
-    width: 2.55em !important;
-    margin-right: 0.25em;
-  }
   &:focus {
     outline: none;
   }
