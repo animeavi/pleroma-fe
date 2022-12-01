@@ -1,5 +1,12 @@
 @import '../../_variables.scss';
 
+.notification-reaction-emoji {
+  width: 40px;
+  display: inline-flex;
+  vertical-align: middle;
+  flex-direction: column;
+}
+
 // TODO Copypaste from Status, should unify it somehow
 .Notification {
   &.-muted {

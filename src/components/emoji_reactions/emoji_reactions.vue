@@ -2,17 +2,33 @@
   <div class="emoji-reactions">
     <UserListPopover
       v-for="(reaction) in emojiReactions"
-      :key="reaction.name"
-      :users="accountsForEmoji[reaction.name]"
+      :key="reaction.url || reaction.name"
+      :users="accountsForEmoji[reaction.url || reaction.name]"
     >
       <button
         class="emoji-reaction btn button-default"
         :class="{ 'picked-reaction': reactedWith(reaction.name), 'not-clickable': !loggedIn }"
+        :disabled="!isLocalReaction(reaction.url)"
         @click="emojiOnClick(reaction.name, $event)"
         @mouseenter="fetchEmojiReactionsByIfMissing()"
       >
-        <span class="reaction-emoji">{{ reaction.name }}</span>
-        <span>{{ reaction.count }}</span>
+        <span
+          v-if="reaction.url !== null"
+        >
+          <img
+            :src="reaction.url"
+            :title="reaction.name"
+            class="emoji"
+            height="32px"
+          >
+          {{ reaction.count }}
+        </span>
+        <span v-else>
+          <span class="reaction-emoji unicode-emoji">
+            {{ reaction.name }}
+          </span>
+          <span>{{ reaction.count }}</span>
+        </span>
       </button>
     </UserListPopover>
     <a
@@ -36,6 +52,10 @@
   flex-wrap: wrap;
 }
 
+.unicode-emoji {
+  font-size: 185%;
+}
+
 .emoji-reaction {
   padding: 0 0.5em;
   margin-right: 0.5em;
@@ -44,10 +64,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  .reaction-emoji {
-    width: 1.25em;
-    margin-right: 0.25em;
-  }
   &:focus {
     outline: none;
   }
@@ -73,7 +89,7 @@
   }
 }
 
-.picked-reaction {
+.button-default.picked-reaction {
   border: 1px solid var(--accent, $fallback--link);
   margin-left: -1px; // offset the border, can't use inset shadows either
   margin-right: calc(0.5em - 1px);

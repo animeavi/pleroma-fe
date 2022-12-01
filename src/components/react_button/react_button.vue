@@ -9,40 +9,10 @@
     @show="focusInput"
   >
     <template v-slot:content="{close}">
-      <div class="reaction-picker-filter">
-        <input
-          v-model="filterWord"
-          size="1"
-          :placeholder="$t('emoji.search_emoji')"
-        >
-      </div>
-      <div class="keep-open">
-        <Checkbox v-model="keepReactOpen">
-          {{ $t('emoji.keep_open') }}
-        </Checkbox>
-      </div>
-      <div class="reaction-picker">
-        <span
-          v-for="emoji in commonEmojis"
-          :key="emoji.replacement"
-          class="emoji-button"
-          :title="emoji.displayText"
-          @click="addReaction($event, emoji.replacement, close, keepReactOpen)"
-        >
-          {{ emoji.replacement }}
-        </span>
-        <div class="reaction-picker-divider" />
-        <span
-          v-for="(emoji, key) in emojis"
-          :key="key"
-          class="emoji-button"
-          :title="emoji.displayText"
-          @click="addReaction($event, emoji.replacement, close, keepReactOpen)"
-        >
-          {{ emoji.replacement }}
-        </span>
-        <div class="reaction-bottom-fader" />
-      </div>
+      <EmojiPicker
+        :enableStickerPicker="false"
+        @emoji="addReaction($event, close)"
+      />
     </template>
     <template v-slot:trigger>
       <button
@@ -62,6 +32,10 @@
 
 <style lang="scss">
 @import '../../_variables.scss';
+
+.custom-reaction {
+  width: 30px !important;
+}
 
 .ReactButton {
   .reaction-picker-filter {
@@ -128,15 +102,6 @@
       color: $fallback--text;
       color: var(--text, $fallback--text);
     }
-  }
-  .keep-open,
-  .too-many-emoji {
-    padding: 7px;
-    line-height: normal;
-  }
-  .keep-open-label {
-    padding: 0 7px;
-    display: flex;
   }
 }
 
