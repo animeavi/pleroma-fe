@@ -25,7 +25,7 @@ const ReactButton = {
       } else {
         this.$store.dispatch('reactWithEmoji', { id: this.status.id, emoji })
       }
-      close()
+      if (!event.keepOpen) { close() }
     },
     focusInput () {
       this.$nextTick(() => {
