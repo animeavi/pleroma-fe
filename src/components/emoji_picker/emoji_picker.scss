@@ -26,7 +26,7 @@
   right: 0;
   left: 0;
   margin: 0 !important;
-  z-index: 1;
+  z-index: 100;
   background-color: $fallback--bg;
   background-color: var(--popover, $fallback--bg);
   color: $fallback--link;
@@ -54,9 +54,8 @@
   }
 
   .heading {
-    display: flex;
-    height: 32px;
-    padding: 10px 7px 5px;
+    margin-top: 10px;
+    height: 4.8em;
   }
 
   .content {
@@ -84,20 +83,40 @@
 
   .additional-tabs,
   .emoji-tabs {
+    position: absolute;
     display: block;
-    min-width: 0;
-    flex-basis: auto;
-    flex-shrink: 1;
+    flex-wrap: nowrap;
+
+    overflow: auto;
+    width: 100%;
+
+    white-space: nowrap;
 
     &-item {
-      padding: 0 7px;
+      vertical-align: top;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: .4em;
       cursor: pointer;
-      font-size: 24px;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      span {
+        font-size: 1.9em;
+      }
 
       &.disabled {
         opacity: 0.5;
         pointer-events: none;
       }
+
       &.active {
         border-bottom: 4px solid;
 
@@ -105,6 +124,9 @@
           color: $fallback--lightText;
           color: var(--lightText, $fallback--lightText);
         }
+      }
+      .fa-sticky-note {
+        font-size: 2em;
       }
     }
   }
@@ -170,9 +192,10 @@
       justify-content: left;
 
       &-title {
-        font-size: 12px;
+        font-size: 0.85em;
         width: 100%;
         margin: 0;
+
         &.disabled {
           display: none;
         }

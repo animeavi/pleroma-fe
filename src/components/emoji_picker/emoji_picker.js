@@ -1,3 +1,4 @@
+import { defineAsyncComponent } from 'vue'
 import Checkbox from '../checkbox/checkbox.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -5,6 +6,7 @@ import {
   faStickyNote,
   faSmileBeam
 } from '@fortawesome/free-solid-svg-icons'
+import { trim, escapeRegExp, startCase } from 'lodash'
 
 library.add(
   faBoxOpen,
@@ -19,23 +21,6 @@ const LOAD_EMOJI_BY = 60
 // When to start loading new batch emoji, in pixels
 const LOAD_EMOJI_MARGIN = 64
 
-const filterByKeyword = (list, keyword = '') => {
-  if (keyword === '') return list
-
-  const keywordLowercase = keyword.toLowerCase()
-  let orderedEmojiList = []
-  for (const emoji of list) {
-    const indexOfKeyword = emoji.displayText.toLowerCase().indexOf(keywordLowercase)
-    if (indexOfKeyword > -1) {
-      if (!Array.isArray(orderedEmojiList[indexOfKeyword])) {
-        orderedEmojiList[indexOfKeyword] = []
-      }
-      orderedEmojiList[indexOfKeyword].push(emoji)
-    }
-  }
-  return orderedEmojiList.flat()
-}
-
 const EmojiPicker = {
   props: {
     enableStickerPicker: {
@@ -47,7 +32,7 @@ const EmojiPicker = {
   data () {
     return {
       keyword: '',
-      activeGroup: 'custom',
+      activeGroup: 'standard',
       showingStickers: false,
       groupsScrolledClass: 'scrolled-top',
       keepOpen: false,
@@ -57,7 +42,7 @@ const EmojiPicker = {
     }
   },
   components: {
-    StickerPicker: () => import('../sticker_picker/sticker_picker.vue'),
+    StickerPicker: defineAsyncComponent(() => import('../sticker_picker/sticker_picker.vue')),
     Checkbox
   },
   methods: {
@@ -77,14 +62,13 @@ const EmojiPicker = {
       this.scrolledGroup(target)
       this.triggerLoadMore(target)
     },
+    onWheel (e) {
+      e.preventDefault()
+      this.$refs['emoji-tabs'].scrollBy(e.deltaY, 0)
+    },
     highlight (key) {
-      const ref = this.$refs['group-' + key]
-      const top = ref[0].offsetTop
       this.setShowStickers(false)
       this.activeGroup = key
-      this.$nextTick(() => {
-        this.$refs['emoji-groups'].scrollTop = top + 1
-      })
     },
     updateScrolledClass (target) {
       if (target.scrollTop <= 5) {
@@ -96,7 +80,7 @@ const EmojiPicker = {
       }
     },
     triggerLoadMore (target) {
-      const ref = this.$refs['group-end-custom'][0]
+      const ref = this.$refs['group-end-custom']
       if (!ref) return
       const bottom = ref.offsetTop + ref.offsetHeight
 
@@ -119,7 +103,7 @@ const EmojiPicker = {
       this.$nextTick(() => {
         this.emojisView.forEach(group => {
           const ref = this.$refs['group-' + group.id]
-          if (ref[0].offsetTop <= top) {
+          if (ref.offsetTop <= top) {
             this.activeGroup = group.id
           }
         })
@@ -153,6 +137,13 @@ const EmojiPicker = {
     },
     setShowStickers (value) {
       this.showingStickers = value
+    },
+    filterByKeyword (list) {
+      if (this.keyword === '') return list
+      const regex = new RegExp(escapeRegExp(trim(this.keyword)), 'i')
+      return list.filter(emoji => {
+        return (regex.test(emoji.displayText) || (!emoji.imageUrl && emoji.replacement === this.keyword))
+      })
     }
   },
   watch: {
@@ -173,9 +164,8 @@ const EmojiPicker = {
       return 0
     },
     filteredEmoji () {
-      return filterByKeyword(
-        this.$store.state.instance.customEmoji || [],
-        this.keyword
+      return this.filterByKeyword(
+        this.$store.state.instance.customEmoji || []
       )
     },
     customEmojiBuffer () {
@@ -183,28 +173,53 @@ const EmojiPicker = {
     },
     emojis () {
       const standardEmojis = this.$store.state.instance.emoji || []
-      const customEmojis = this.customEmojiBuffer
-
+      const customEmojis = this.sortedEmoji
+      const emojiPacks = []
+      customEmojis.forEach((pack, id) => {
+        emojiPacks.push({
+          id: id.replace(/^pack:/, ''),
+          text: startCase(id.replace(/^pack:/, '')),
+          first: pack[0],
+          emojis: this.filterByKeyword(pack)
+        })
+      })
       return [
-        {
-          id: 'custom',
-          text: this.$t('emoji.custom'),
-          icon: 'smile-beam',
-          emojis: customEmojis
-        },
         {
           id: 'standard',
           text: this.$t('emoji.unicode'),
-          icon: 'box-open',
-          emojis: filterByKeyword(standardEmojis, this.keyword)
+          first: {
+            imageUrl: '',
+            replacement: '🥴'
+          },
+          emojis: this.filterByKeyword(standardEmojis)
         }
-      ]
+      ].concat(emojiPacks)
+    },
+    sortedEmoji () {
+      const customEmojis = this.$store.state.instance.customEmoji || []
+      const sortedEmojiGroups = new Map()
+      customEmojis.forEach((emoji) => {
+        if (!sortedEmojiGroups.has(emoji.tags[0])) {
+          sortedEmojiGroups.set(emoji.tags[0], [emoji])
+        } else {
+          sortedEmojiGroups.get(emoji.tags[0]).push(emoji)
+        }
+      })
+      return new Map([...sortedEmojiGroups.entries()].sort())
     },
     emojisView () {
-      return this.emojis.filter(value => value.emojis.length > 0)
+      if (this.keyword === '') {
+        return this.emojis.filter(pack => {
+          return pack.id === this.activeGroup
+        })
+      } else {
+        return this.emojis.filter(pack => {
+          return pack.emojis.length > 0
+        })
+      }
     },
     stickerPickerEnabled () {
-      return (this.$store.state.instance.stickers || []).length !== 0
+      return (this.$store.state.instance.stickers || []).length !== 0 && this.enableStickerPicker
     }
   }
 }
