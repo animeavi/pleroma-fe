@@ -304,7 +304,7 @@ const fetchUser = ({ id, credentials }) => {
 }
 
 const fetchUserRelationship = ({ id, credentials }) => {
-  let url = `${MASTODON_USER_RELATIONSHIPS_URL}/?id=${id}`
+  let url = `${MASTODON_USER_RELATIONSHIPS_URL}/?id=${id?.id ?? id}`
   return fetch(url, { headers: authHeaders(credentials) })
     .then((response) => {
       return new Promise((resolve, reject) => response.json()
