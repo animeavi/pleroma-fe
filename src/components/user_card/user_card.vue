@@ -126,6 +126,12 @@
         </div>
         <div class="user-meta">
           <div
+            v-if="relationship.blocked_by && loggedIn && isOtherUser"
+            class="blocking"
+          >
+            {{ $t('user_card.blocks_you') }}
+          </div>
+          <div
             v-if="relationship.followed_by && loggedIn && isOtherUser"
             class="following"
           >
@@ -545,7 +551,7 @@
     line-height: 22px;
     flex-wrap: wrap;
 
-    .following {
+    .following, .blocking {
       flex: 1 0 auto;
       margin: 0;
       margin-bottom: .25em;
