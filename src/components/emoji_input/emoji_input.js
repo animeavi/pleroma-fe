@@ -202,7 +202,6 @@ const EmojiInput = {
     },
     triggerShowPicker () {
       this.showPicker = true
-      this.$refs.picker.startEmojiLoad()
       this.$nextTick(() => {
         this.scrollIntoView()
         this.focusPickerInput()
@@ -220,7 +219,6 @@ const EmojiInput = {
       this.showPicker = !this.showPicker
       if (this.showPicker) {
         this.scrollIntoView()
-        this.$refs.picker.startEmojiLoad()
         this.$nextTick(this.focusPickerInput)
       }
     },
