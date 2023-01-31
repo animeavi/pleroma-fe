@@ -57,10 +57,7 @@
           @emoji="onEmoji"
           @active-group="onActiveGroup"
         />
-        <div
-          v-if="showKeepOpen"
-          class="keep-open"
-        >
+        <div class="keep-open">
           <Checkbox v-model="keepOpen">
             {{ $t('emoji.keep_open') }}
           </Checkbox>
