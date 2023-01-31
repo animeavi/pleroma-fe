@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import App from '../App.vue'
-import VueVirtualScroller from 'vue-virtual-scroller'
 import { windowWidth } from '../services/window_utils/window_utils'
 import { getOrCreateApp, getClientToken } from '../services/new_api/oauth.js'
 import backendInteractorService from '../services/backend_interactor_service/backend_interactor_service.js'
@@ -378,18 +377,14 @@ const afterStoreSetup = async ({ store, i18n }) => {
     }
   })
 
-  let vue = new Vue({
+  /* eslint-disable no-new */
+  return new Vue({
     router,
     store,
     i18n,
     el: '#app',
     render: h => h(App)
   })
-
-  Vue.use(VueVirtualScroller)
-
-  /* eslint-disable no-new */
-  return vue
 }
 
 export default afterStoreSetup

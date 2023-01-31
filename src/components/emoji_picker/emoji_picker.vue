@@ -8,7 +8,6 @@
       >
         <span
           v-for="group in emojis"
-          :ref="setGroupRef('group-' + group.id)"
           :key="group.id"
           class="emoji-tabs-item"
           :class="{
@@ -52,52 +51,39 @@
             @input="$event.target.composing = false"
           >
         </div>
-        <DynamicScroller
+        <div
           ref="emoji-groups"
           class="emoji-groups"
           :class="groupsScrolledClass"
-          :items="emojisView"
-          :min-item-size="minItemSize"
-          :emit-update="true"
           @scroll="onScroll"
         >
-          <template #default="{ item: group, index, active }">
-            <DynamicScrollerItem
-              :ref="setGroupRef('group-' + group.id)"
-              :item="group"
-              :active="active"
-              :data-index="index"
-              :size-dependencies="[group.emojis.length]"
+          <div
+            v-for="group in emojisView"
+            :key="group.id"
+            class="emoji-group"
+          >
+            <h6
+              :ref="'group-' + group.id"
+              class="emoji-group-title"
             >
-              <div
-                class="emoji-group"
+              {{ group.text }}
+            </h6>
+            <span
+              v-for="emoji in group.emojis"
+              :key="group.id + emoji.displayText"
+              :title="emoji.displayText"
+              class="emoji-item"
+              @click.stop.prevent="onEmoji(emoji)"
+            >
+              <span v-if="!emoji.imageUrl">{{ emoji.replacement }}</span>
+              <img
+                v-else
+                :src="emoji.imageUrl"
               >
-                <h6
-                  class="emoji-group-title"
-                >
-                  {{ group.text }}
-                </h6>
-                <span
-                  v-for="emoji in group.emojis"
-                  :key="group.id + emoji.displayText"
-                  :title="emoji.displayText"
-                  class="emoji-item"
-                  @click.stop.prevent="onEmoji(emoji)"
-                >
-                  <span
-                    v-if="!emoji.imageUrl"
-                  >{{ emoji.replacement }}</span>
-                  <img
-                    v-else
-                    :src="emoji.imageUrl"
-                    loading="lazy"
-                  >
-                </span>
-                <span :ref="'group-end-' + group.id" />
-              </div>
-            </DynamicScrollerItem>
-          </template>
-        </DynamicScroller>
+            </span>
+            <span :ref="'group-end-' + group.id" />
+          </div>
+        </div>
         <div class="keep-open">
           <Checkbox v-model="keepOpen">
             {{ $t('emoji.keep_open') }}
