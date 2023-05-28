@@ -82,20 +82,24 @@
           :user="statusoid.user"
         />
         <div class="right-side faint">
-          <span
+          <bdi
             class="status-username repeater-name"
             :title="retweeter"
           >
             <router-link
               v-if="retweeterHtml"
               :to="retweeterProfileLink"
-              v-html="retweeterHtml"
-            />
+            >
+              <RichContent
+                :html="retweeterHtml"
+                :emoji="retweeterUser.emoji"
+              />
+            </router-link>
             <router-link
               v-else
               :to="retweeterProfileLink"
             >{{ retweeter }}</router-link>
-          </span>
+          </bdi>
           <FAIcon
             icon="retweet"
             class="repeat-icon"
@@ -405,6 +409,6 @@
 <!-- eslint-enable vue/no-v-html -->
 </template>
 
-<script src="./status.js" ></script>
+<script src="./status.js"></script>
 
 <style src="./status.scss" lang="scss"></style>

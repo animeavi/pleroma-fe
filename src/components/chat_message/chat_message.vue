@@ -95,7 +95,7 @@
   </div>
 </template>
 
-<script src="./chat_message.js" ></script>
+<script src="./chat_message.js"></script>
 <style lang="scss">
 @import './chat_message.scss';
 

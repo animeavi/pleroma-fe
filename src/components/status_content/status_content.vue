@@ -130,7 +130,7 @@
   <!-- eslint-enable vue/no-v-html -->
 </template>
 
-<script src="./status_content.js" ></script>
+<script src="./status_content.js"></script>
 <style lang="scss">
 @import '../../_variables.scss';
 

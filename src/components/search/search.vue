@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="panel-body">
-        <div v-if="currenResultTab === 'statuses'">
+      <div v-if="currenResultTab === 'statuses'">
         <Status
           v-for="status in visibleStatuses"
           :key="status.id"

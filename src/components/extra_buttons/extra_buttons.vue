@@ -129,7 +129,7 @@
   </Popover>
 </template>
 
-<script src="./extra_buttons.js" ></script>
+<script src="./extra_buttons.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';

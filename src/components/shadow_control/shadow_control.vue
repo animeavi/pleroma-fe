@@ -214,7 +214,7 @@
   </div>
 </template>
 
-<script src="./shadow_control.js" ></script>
+<script src="./shadow_control.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';

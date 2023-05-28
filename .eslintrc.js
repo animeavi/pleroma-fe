@@ -26,12 +26,9 @@ module.exports = {
     'vue/attributes-order': 'off',
     'vue/component-definition-name-casing': 'off',
     'vue/component-tags-order': 'off',
-    'vue/html-closing-bracket-spacing': 'off',
-    'vue/html-indent': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-lone-template': 'off',
     'vue/no-reserved-component-names': 'off',
-    'vue/no-v-text-v-html-on-component': 'off',
     'vue/require-prop-types': 0,
     'vue/v-slot-style': 'off'
   }
