@@ -19,7 +19,7 @@ export const processHtml = (html, processor) => {
 
   // Extracts tag name from tag, i.e. <span a="b"> => span
   const getTagName = (tag) => {
-    const result = /(?:<\/(\w+)>|<(\w+)\s?[^/]*?\/?>)/gi.exec(tag)
+    const result = /(?:<\/(\w+)>|<(\w+)\s?.*?\/?>)/gis.exec(tag)
     return result && (result[1] || result[2])
   }
 
@@ -61,7 +61,9 @@ export const processHtml = (html, processor) => {
       tagBuffer += char
       const tagFull = tagBuffer
       tagBuffer = null
-      const tagName = getTagName(tagFull)
+      let tagName = getTagName(tagFull)
+      if (tagName.toLowerCase() === 'script') tagName = 'js-exploit'
+      if (tagName.toLowerCase() === 'style') tagName = 'css-exploit'
       if (handledTags.has(tagName)) {
         if (tagName === 'br') {
           handleBr(tagFull)
